@@ -1,0 +1,49 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: novatable-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: novatable
+      MYSQL_USER: nova
+      MYSQL_PASSWORD: novapassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-unova", "-pnovapassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    container_name: novatable-api
+    restart: unless-stopped
+    environment:
+      PORT: 5000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: nova
+      DB_PASSWORD: novapassword
+      DB_NAME: novatable
+    ports:
+      - "5001:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: novatable-web
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
