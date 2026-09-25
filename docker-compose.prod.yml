@@ -18,7 +18,7 @@ services:
       retries: 20
 
   backend:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/novatable-backend:latest
+    image: ghcr.io/aimankhatoon/novatable-backend:latest
     container_name: novatable-api
     restart: unless-stopped
     environment:
@@ -33,7 +33,7 @@ services:
         condition: service_healthy
 
   frontend:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/novatable-frontend:latest
+    image: ghcr.io/aimankhatoon/novatable-frontend:latest
     container_name: novatable-web
     restart: unless-stopped
     ports:
