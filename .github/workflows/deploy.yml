@@ -30,8 +30,8 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/novatable-backend:latest
-            ghcr.io/${{ github.repository_owner }}/novatable-backend:${{ github.sha }}
+            ghcr.io/aimankhatoon/novatable-backend:latest
+            ghcr.io/aimankhatoon/novatable-backend:${{ github.sha }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
@@ -39,8 +39,8 @@ jobs:
           context: ./frontend
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/novatable-frontend:latest
-            ghcr.io/${{ github.repository_owner }}/novatable-frontend:${{ github.sha }}
+            ghcr.io/aimankhatoon/novatable-frontend:latest
+            ghcr.io/aimankhatoon/novatable-frontend:${{ github.sha }}
 
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@v1.2.2
