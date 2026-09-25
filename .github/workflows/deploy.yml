@@ -53,8 +53,10 @@ jobs:
 
             git pull origin master
 
-            docker compose pull
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" > .env
 
-            docker compose up -d
+            docker compose -f docker-compose.prod.yml pull
+
+            docker compose -f docker-compose.prod.yml up -d
 
             docker image prune -f
